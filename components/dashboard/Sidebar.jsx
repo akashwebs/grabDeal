@@ -25,6 +25,11 @@ name:"Category",
 link:"/dashboard/category",
 icon:"📁"
 },
+{
+  name: "All Categories",
+  link: "/dashboard/category/view",
+  icon: "📋",
+},
 
 {
 name:"Offers",
