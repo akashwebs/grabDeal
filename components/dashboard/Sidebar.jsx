@@ -46,7 +46,11 @@ name:"Brands",
 link:"/dashboard/brands",
 icon:"🏷"
 },
-
+{
+  name: "All Brands",
+  link: "/dashboard/brands/view",
+  icon: "🏷️",
+},
 {
 name:"Customers Review",
 link:"/dashboard/reviews",

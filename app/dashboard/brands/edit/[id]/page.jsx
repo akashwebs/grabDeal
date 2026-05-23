@@ -1,9 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 
-export default function BrandsPage() {
+export default function EditBrandPage() {
+  const { id } = useParams();
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -12,6 +17,50 @@ export default function BrandsPage() {
     image: '',
     status: 'active',
   });
+
+  useEffect(() => {
+    const fetchBrand = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/v1/brands/${id}`, {
+          cache: 'no-store',
+        });
+
+        const data = await res.json();
+        const brand = data?.data || data;
+
+        if (!res.ok) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Fetch Failed',
+            text: data?.message || 'Brand data load failed.',
+            confirmButtonColor: '#7b00ff',
+          });
+          return;
+        }
+
+        setFormData({
+          name: brand?.name || '',
+          image: brand?.image || '',
+          status: brand?.status || 'active',
+        });
+
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Server Error',
+          text: 'Brand fetch request failed.',
+          confirmButtonColor: '#7b00ff',
+        });
+
+        console.log(error);
+      }
+    };
+
+    if (id) fetchBrand();
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -138,12 +187,11 @@ export default function BrandsPage() {
     try {
       setSubmitting(true);
 
-      const res = await fetch('http://localhost:5000/api/v1/brands', {
-        method: 'POST',
+      const res = await fetch(`http://localhost:5000/api/v1/brands/${id}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-
         body: JSON.stringify({
           name: formData.name,
           image: formData.image,
@@ -156,8 +204,8 @@ export default function BrandsPage() {
       if (!res.ok) {
         Swal.fire({
           icon: 'error',
-          title: 'Create Failed',
-          text: data?.message || 'Brand create failed.',
+          title: 'Update Failed',
+          text: data?.message || 'Brand update failed.',
           confirmButtonColor: '#7b00ff',
         });
 
@@ -167,26 +215,21 @@ export default function BrandsPage() {
 
       Swal.fire({
         icon: 'success',
-        title: 'Success',
-        text: 'Brand created successfully.',
-        timer: 1600,
+        title: 'Updated',
+        text: 'Brand updated successfully.',
+        timer: 1500,
         showConfirmButton: false,
       });
 
-      setFormData({
-        name: '',
-        image: '',
-        status: 'active',
-      });
-
       setSubmitting(false);
+      router.push('/dashboard/brands/view');
     } catch (error) {
       setSubmitting(false);
 
       Swal.fire({
         icon: 'error',
         title: 'Server Error',
-        text: 'Brand post request failed.',
+        text: 'Brand update request failed.',
         confirmButtonColor: '#7b00ff',
       });
 
@@ -194,15 +237,23 @@ export default function BrandsPage() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="rounded-3xl bg-white p-8 text-center text-gray-500">
+        Loading brand data...
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="mb-8">
         <h1 className="text-4xl font-black text-[#16013d]">
-          Brands Management
+          Edit Brand
         </h1>
 
         <p className="mt-2 text-gray-500">
-          Add brand name, logo and status.
+          Update brand name, logo and status.
         </p>
       </div>
 
@@ -212,7 +263,7 @@ export default function BrandsPage() {
           className="rounded-3xl border border-purple-100 bg-white p-6 shadow-sm"
         >
           <h2 className="mb-6 text-2xl font-black text-purple-700">
-            Add New Brand
+            Update Brand
           </h2>
 
           <div className="space-y-5">
@@ -275,7 +326,7 @@ export default function BrandsPage() {
               type="submit"
               className="rounded-xl bg-purple-700 px-8 py-3 font-bold text-white transition hover:bg-purple-800 disabled:opacity-50"
             >
-              {submitting ? 'Saving...' : 'Save Brand'}
+              {submitting ? 'Updating...' : 'Update Brand'}
             </button>
           </div>
         </form>
@@ -311,13 +362,6 @@ export default function BrandsPage() {
             >
               {formData.status}
             </span>
-          </div>
-
-          <div className="mt-6 rounded-2xl bg-purple-50 p-5">
-            <h3 className="font-black text-purple-700">API Endpoint</h3>
-            <p className="mt-2 text-sm text-gray-600">
-              POST: http://localhost:5000/api/v1/brands
-            </p>
           </div>
         </div>
       </div>

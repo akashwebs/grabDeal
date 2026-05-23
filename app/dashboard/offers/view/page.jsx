@@ -8,6 +8,9 @@ export default function ViewOffersPage() {
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  console.log("offer",offers)
+  
+
   const fetchOffers = async () => {
     try {
       setLoading(true);
@@ -18,7 +21,7 @@ export default function ViewOffersPage() {
 
       const data = await res.json();
 
-      setOffers(data?.data || data || []);
+      setOffers(data?.data.products || data || []);
       setLoading(false);
     } catch (error) {
       setLoading(false);

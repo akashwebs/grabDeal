@@ -9,6 +9,10 @@ export default function OffersPage() {
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+
+  console.log("brand",categories)
+  
+
   const [formData, setFormData] = useState({
     image: '',
     discount: '',
@@ -35,7 +39,7 @@ export default function OffersPage() {
     try {
       const res = await fetch('http://localhost:5000/api/v1/categories');
       const data = await res.json();
-      setCategories(data?.data || data || []);
+      setCategories(data?.data.result || data || []);
     } catch (error) {
       console.log('Category fetch error:', error);
     }
@@ -45,7 +49,7 @@ export default function OffersPage() {
     try {
       const res = await fetch('http://localhost:5000/api/v1/brands');
       const data = await res.json();
-      setBrands(data?.data || data || []);
+      setBrands(data?.data.result || data || []);
     } catch (error) {
       console.log('Brand fetch error:', error);
     }
@@ -357,7 +361,7 @@ export default function OffersPage() {
               <option value="">Select Category</option>
               {categories.map((item) => (
                 <option key={item._id || item.name} value={item.name}>
-                  {item.name}
+                  {item.title}
                 </option>
               ))}
             </select>
