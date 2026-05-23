@@ -1,4 +1,6 @@
 import OfferCard from "@/components/cards/OfferCard";
+import {newToday} from "@/components/data/mockData"
+
 
 const todaysOffers = [
   {
@@ -62,7 +64,7 @@ export default function TodaysOffer() {
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-        {todaysOffers.map((offer) => (
+        {newToday.map((offer) => (
           <OfferCard key={offer.brand} offer={offer} />
         ))}
       </div>

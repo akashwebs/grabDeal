@@ -5,12 +5,16 @@ import Header from "../../../components/layout/Header";
 export default async function Page({params}){
 
 const offer =
-newToday.find(item=>item.id===params.id)
+newToday.find(item=>item.id==="1")
 
 const related=
 newToday.filter(
 item=>item.id!==params.id
 ).slice(0,4)
+
+
+console.log("deatils page",offer,params)
+
 
 return(
 

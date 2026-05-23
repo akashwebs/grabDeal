@@ -1,4 +1,5 @@
 export default function OfferCard({ offer }) {
+  console.log("test",offer)
   return (
     <article className="overflow-hidden rounded-2xl border border-purple-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
       <div className="relative h-48 overflow-hidden bg-gray-50">
