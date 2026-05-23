@@ -31,7 +31,11 @@ name:"Offers",
 link:"/dashboard/offers",
 icon:"🔥"
 },
-
+{
+  name: "All Offers",
+  link: "/dashboard/offers/view",
+  icon: "📋",
+},
 {
 name:"Brands",
 link:"/dashboard/brands",
