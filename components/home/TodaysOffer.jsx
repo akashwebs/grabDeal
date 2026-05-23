@@ -1,51 +1,50 @@
 import OfferCard from "@/components/cards/OfferCard";
-import {newToday} from "@/components/data/mockData"
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
 
-const todaysOffers = [
-  {
-    brand: "AJIO",
-    image: "/products/ajio.jpg",
-    discount: "20% OFF",
-    title: "Stylish Men Shirt",
-    ends: "Ends in 2 days 04 : 12 : 45",
-    online: true,
-  },
-  {
-    brand: "Myntra",
-    image: "/products/myntra.jpg",
-    discount: "50% OFF",
-    title: "Sneakers Collection",
-    ends: "Ends in 1 day 08 : 45 : 30",
-    online: true,
-  },
-  {
-    brand: "Puma",
-    image: "/products/puma.jpg",
-    discount: "30% OFF",
-    title: "Running Shoes",
-    ends: "Ends in 2 days 02 : 10 : 20",
-    online: false,
-  },
-  {
-    brand: "boAt",
-    image: "/products/boat.jpg",
-    discount: "40% OFF",
-    title: "Wireless Headphone",
-    ends: "Ends in 1 day 06 : 35 : 10",
-    online: true,
-  },
-  {
-    brand: "Zudio",
-    image: "/products/zudio.jpg",
-    discount: "10% OFF",
-    title: "Casual T-Shirt",
-    ends: "Ends in 2 days 11 : 25 : 50",
-    online: false,
-  },
-];
+async function getTodayOffers() {
+  const res = await fetch(`${API_URL}/offers`, {
+    next: { revalidate: 60 },
+  });
 
-export default function TodaysOffer() {
+  if (!res.ok) return [];
+
+  const data = await res.json();
+  const offers = data?.data?.products || data?.data || data || [];
+
+  return offers
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .map((item) => ({
+      id: item._id,
+      title: item.title,
+      brand: item.brands,
+      image: item.image,
+      discount: `${item.discount}% OFF`,
+      ends: item.expiryDate
+        ? new Date(item.expiryDate).toLocaleDateString("en-GB")
+        : "N/A",
+      online: item.offerType === "online",
+      verified: item.verified,
+      category: item.category,
+      merchant: item.merchantName,
+      applicableOn: item.offerType === "online" ? "Website & App" : "Store",
+      description: item.description,
+      shopLink: item.shopLink,
+      terms: item.termsAndCondition
+        ? item.termsAndCondition.split("\n")
+        : [],
+      features: [
+        "100% Original",
+        "Easy Returns",
+        "Secure Payment",
+        "Premium Quality",
+      ],
+    }));
+}
+
+export default async function TodaysOffer() {
+  const newToday = await getTodayOffers();
+
   return (
     <section id="today" className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
       <div className="mb-6 flex items-center justify-between">
@@ -65,7 +64,7 @@ export default function TodaysOffer() {
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
         {newToday.map((offer) => (
-          <OfferCard key={offer.brand} offer={offer} />
+          <OfferCard key={offer.id} offer={offer} />
         ))}
       </div>
     </section>
