@@ -14,8 +14,8 @@ export default function OfferCard({ offer }) {
           <span className={offer.online ? 'text-green-600' : 'text-orange-500'}>● {offer.online ? 'Online' : 'Offline'}</span>
         </div>
         <div className="mt-5 flex items-center justify-between border-t border-purple-100 pt-4">
-          <a className="text-sm font-bold text-purple-700" href="#details">Details</a>
-          <a className="rounded-lg bg-purple-700 px-5 py-2 text-sm font-bold text-white" href="#offer">View Offer</a>
+          <a className="text-sm font-bold text-purple-700" href={`/offer/${offer.id}`}>Details</a>
+          <a className="rounded-lg bg-purple-700 px-5 py-2 text-sm font-bold text-white" href={`/offer/${offer.id}`}>View Offer</a>
         </div>
       </div>
     </article>
