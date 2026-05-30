@@ -3,7 +3,9 @@ export default function OfferCard({ offer }) {
   return (
     <article className="overflow-hidden rounded-2xl border border-purple-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
       <div className="relative h-48 overflow-hidden bg-gray-50">
+        <a href={`/offer/${offer.id}`}>
         <img src={offer.image} alt={offer.brand} className="h-full w-full object-cover transition duration-500 hover:scale-110" />
+        </a>
         <div className="absolute right-3 top-3 rounded-full bg-purple-700 px-3 py-1 text-xs font-bold text-white">{offer.discount}</div>
       </div>
       <div className="p-5">
