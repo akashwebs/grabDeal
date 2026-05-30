@@ -52,13 +52,13 @@ export default function HeroSlider() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-4 sm:py-6 lg:px-8">
       <div className="relative h-[260px] overflow-hidden rounded-[24px] shadow-2xl sm:h-[340px] md:h-[430px] lg:h-[500px] lg:rounded-[32px]">
-        <img
+       {currentSlide.image &&  <img
           src={currentSlide.image}
           alt={currentSlide.title || 'Slider image'}
           className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-in-out ${
             fade ? 'scale-100 opacity-100' : 'scale-105 opacity-0'
           }`}
-        />
+        />}
 
         <div className="absolute inset-0 bg-gradient-to-r from-[#12002f]/90 via-[#7b00ff]/55 to-transparent" />
 
