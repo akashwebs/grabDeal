@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const API_URL =
@@ -36,9 +37,9 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-purple-100 bg-white/90 shadow-sm backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <a href="/" className="flex items-center gap-3 group">
+          <Link href="/" className="flex items-center gap-3 group">
             <Image src="/logo.png" width={150} height={500} alt="" />
-          </a>
+          </Link>
 
           <nav className="hidden lg:flex items-center gap-8 text-sm font-bold">
             <div className="group relative">

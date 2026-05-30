@@ -1,11 +1,13 @@
+import Link from "next/link";
+
 export default function OfferCard({ offer }) {
   console.log("test",offer)
   return (
     <article className="overflow-hidden rounded-2xl border border-purple-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
       <div className="relative h-48 overflow-hidden bg-gray-50">
-        <a href={`/offer/${offer.id}`}>
+        <Link href={`/offer/${offer.id}`}>
         <img src={offer.image} alt={offer.brand} className="h-full w-full object-cover transition duration-500 hover:scale-110" />
-        </a>
+        </Link>
         <div className="absolute right-3 top-3 rounded-full bg-purple-700 px-3 py-1 text-xs font-bold text-white">{offer.discount}</div>
       </div>
       <div className="p-5">
@@ -17,8 +19,8 @@ export default function OfferCard({ offer }) {
           <span className={offer.online ? 'text-green-600' : 'text-orange-500'}>● {offer.online ? 'Online' : 'Offline'}</span>
         </div>
         <div className="mt-5 flex items-center justify-between border-t border-purple-100 pt-4">
-          <a className="text-sm font-bold text-purple-700" href={`/offer/${offer.id}`}>Details</a>
-          <a className="rounded-lg bg-purple-700 px-5 py-2 text-sm font-bold text-white" href={`/offer/${offer.id}`}>View Offer</a>
+          <Link className="text-sm font-bold text-purple-700" href={`/offer/${offer.id}`}>Details</Link>
+          <Link className="rounded-lg bg-purple-700 px-5 py-2 text-sm font-bold text-white" href={`/offer/${offer.id}`}>View Offer</Link>
         </div>
       </div>
     </article>

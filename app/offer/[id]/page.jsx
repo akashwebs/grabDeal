@@ -183,13 +183,13 @@ export default async function Page({ params }) {
                   {offer?.discount}
                 </h1>
 
-                <a
+                <Link
                   href={offer?.shopLink}
                   target="_blank"
                   className="block bg-purple-700 text-white w-full rounded-xl py-4 mt-6 font-bold"
                 >
                   Shop Now
-                </a>
+                </Link>
               </div>
             </div>
           </div>
