@@ -56,7 +56,7 @@ export default async function NewToday() {
           <h2 className="text-3xl font-extrabold">New Today</h2>
         </div>
 
-        <a className="hidden text-sm font-bold text-purple-700 md:block" href="#all">
+        <a className="hidden text-sm font-bold text-purple-700 md:block" href="/offer">
           View All →
         </a>
       </div>

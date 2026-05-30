@@ -1,6 +1,7 @@
 import OfferCard from "../../../components/cards/OfferCard";
 import Header from "../../../components/layout/Header";
 import Link from "next/link";
+import OfferActions from "../../../components/offer/OfferActions";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
 
@@ -134,11 +135,7 @@ export default async function Page({ params }) {
                 />
               </div>
 
-              <div className="flex justify-center gap-10 mt-6 text-sm">
-                <button>↗ Share</button>
-                <button>♡ Wishlist</button>
-                <button>⚠ Report</button>
-              </div>
+              <OfferActions offer={offer} />
             </div>
 
             <div className="bg-white rounded-3xl p-8 shadow-sm">

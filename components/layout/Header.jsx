@@ -50,7 +50,11 @@ export default function Header() {
                 {navItems.map((item) => (
                   <a
                     key={item}
-                    href={item === "All" ? "/offer" : `/offer?category=${item}`}
+                   href={
+            item === "All"
+              ? "/offer"
+              : `/offer?category=${encodeURIComponent(item)}`
+          }
                     className="block rounded-xl px-4 py-3 hover:bg-purple-50"
                   >
                     {item}
@@ -62,7 +66,11 @@ export default function Header() {
             {navItems.slice(1, 5).map((item) => (
               <a
                 key={item}
-                href="#"
+                href={
+            item === "All"
+              ? "/offer"
+              : `/offer?category=${encodeURIComponent(item)}`
+          }
                 className="hover:text-purple-700 transition"
               >
                 {item}

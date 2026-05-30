@@ -58,7 +58,7 @@ export default function TopStores() {
         </div>
 
         <a
-          href="#"
+          href="/brands"
           className="hidden md:block text-sm font-bold text-purple-700"
         >
           View All →
