@@ -179,7 +179,7 @@ export default function EditBannerPage() {
       });
 
       setSubmitting(false);
-      router.push('/dashboard/banners');
+      router.push('/dashboard/banner');
     } catch (error) {
       setSubmitting(false);
       console.log('Banner update error:', error);

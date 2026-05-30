@@ -144,15 +144,7 @@ export default function CategoryPage() {
       return;
     }
 
-    if (!formData.imageURLs.length) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Image Required',
-        text: 'Please upload at least one category image.',
-        confirmButtonColor: '#7b00ff',
-      });
-      return;
-    }
+    
 
     try {
       setSubmitting(true);
@@ -165,7 +157,7 @@ export default function CategoryPage() {
 
         body: JSON.stringify({
           title: formData.title,
-          imageURLs: formData.imageURLs,
+          imageURLs: formData.imageURLs || " ",
           status: formData.status,
         }),
       });
