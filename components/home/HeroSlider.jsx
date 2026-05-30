@@ -86,7 +86,7 @@ export default function HeroSlider() {
           )}
 
           <a
-            href="#today"
+            href={currentSlide.offerUrl || "#"}
             className="mt-5 w-fit rounded-2xl bg-white px-5 py-3 text-sm font-bold text-purple-700 shadow-xl transition hover:scale-105 sm:mt-8 sm:px-7 sm:py-4 sm:text-base"
           >
             Explore Offers →

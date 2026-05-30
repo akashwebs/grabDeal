@@ -20,11 +20,13 @@ export default function EditBannerPage() {
     title: '',
     subtitle: '',
     discount: '',
+    position: 0,
+    offerUrl: '',
     status: 'active',
   });
 
   useEffect(() => {
-    fetchBanner();
+    if (id) fetchBanner();
   }, [id]);
 
   const fetchBanner = async () => {
@@ -34,6 +36,12 @@ export default function EditBannerPage() {
       const res = await fetch(`${API_URL}/banner/${id}`);
       const data = await res.json();
 
+      if (!res.ok) {
+        Swal.fire('Error', data?.message || 'Banner load failed', 'error');
+        setLoading(false);
+        return;
+      }
+
       const banner = data?.data?.result || data?.data || data;
 
       setFormData({
@@ -41,6 +49,8 @@ export default function EditBannerPage() {
         title: banner?.title || '',
         subtitle: banner?.subtitle || '',
         discount: banner?.discount || '',
+        position: banner?.position ?? 0,
+        offerUrl: banner?.offerUrl || '',
         status: banner?.status || 'active',
       });
 
@@ -48,12 +58,7 @@ export default function EditBannerPage() {
     } catch (error) {
       setLoading(false);
       console.log('Banner fetch error:', error);
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Banner load failed',
-      });
+      Swal.fire('Server Error', 'Banner load failed', 'error');
     }
   };
 
@@ -122,28 +127,27 @@ export default function EditBannerPage() {
     } catch (error) {
       setUploading(false);
       console.log(error);
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Upload Error',
-        text: 'Server upload failed',
-      });
+      Swal.fire('Upload Error', 'Server upload failed', 'error');
     }
+  };
+
+  const removeImage = () => {
+    setFormData({
+      ...formData,
+      image: '',
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.image) {
-      Swal.fire('Image Required', 'Please upload banner image', 'warning');
-      return;
-    }
-
     const payload = {
-      image: formData.image,
+      image: formData.image || '',
       title: formData.title,
       subtitle: formData.subtitle,
       discount: formData.discount,
+      position: Number(formData.position),
+      offerUrl: formData.offerUrl,
       status: formData.status,
     };
 
@@ -162,13 +166,7 @@ export default function EditBannerPage() {
 
       if (!res.ok) {
         setSubmitting(false);
-
-        Swal.fire({
-          icon: 'error',
-          title: 'Update Failed',
-          text: data?.message || 'Banner update failed',
-        });
-
+        Swal.fire('Update Failed', data?.message || 'Banner update failed', 'error');
         return;
       }
 
@@ -181,15 +179,11 @@ export default function EditBannerPage() {
       });
 
       setSubmitting(false);
+      router.push('/dashboard/banners');
     } catch (error) {
       setSubmitting(false);
       console.log('Banner update error:', error);
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Server Error',
-        text: 'Something went wrong',
-      });
+      Swal.fire('Server Error', 'Something went wrong', 'error');
     }
   };
 
@@ -229,6 +223,10 @@ export default function EditBannerPage() {
               className="w-full rounded-xl border border-purple-100 px-4 py-3"
             />
 
+            <p className="mt-2 text-xs text-gray-500">
+              Image optional. PNG, JPG, WEBP supported. Max 900 KB.
+            </p>
+
             {uploading && (
               <p className="mt-2 text-sm font-bold text-purple-600">
                 Uploading...
@@ -236,11 +234,21 @@ export default function EditBannerPage() {
             )}
 
             {formData.image && (
-              <img
-                src={formData.image}
-                alt="Preview"
-                className="mt-4 h-64 w-full rounded-2xl border object-cover"
-              />
+              <div className="mt-4">
+                <img
+                  src={formData.image}
+                  alt="Preview"
+                  className="h-64 w-full rounded-2xl border object-cover"
+                />
+
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="mt-3 rounded-xl bg-red-50 px-4 py-2 text-sm font-bold text-red-600"
+                >
+                  Remove Image
+                </button>
+              </div>
             )}
           </div>
 
@@ -264,6 +272,30 @@ export default function EditBannerPage() {
               value={formData.discount}
               onChange={handleChange}
               placeholder="Up to 70% OFF"
+              className="w-full rounded-xl border border-purple-100 px-4 py-3"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-bold">Position</label>
+            <input
+              type="number"
+              name="position"
+              value={formData.position}
+              onChange={handleChange}
+              placeholder="1"
+              className="w-full rounded-xl border border-purple-100 px-4 py-3"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-bold">Offer URL</label>
+            <input
+              type="text"
+              name="offerUrl"
+              value={formData.offerUrl}
+              onChange={handleChange}
+              placeholder="/offers"
               className="w-full rounded-xl border border-purple-100 px-4 py-3"
             />
           </div>

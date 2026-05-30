@@ -18,6 +18,8 @@ export default function AddBannerPage() {
     title: '',
     subtitle: '',
     discount: '',
+    position: 0,
+    offerUrl: '',
     status: 'active',
   });
 
@@ -90,19 +92,23 @@ export default function AddBannerPage() {
     }
   };
 
+  const removeImage = () => {
+    setFormData({
+      ...formData,
+      image: '',
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.image) {
-      Swal.fire('Image Required', 'Please upload banner image', 'warning');
-      return;
-    }
-
     const payload = {
-      image: formData.image,
+      image: formData.image || '',
       title: formData.title,
       subtitle: formData.subtitle,
       discount: formData.discount,
+      position: Number(formData.position),
+      offerUrl: formData.offerUrl,
       status: formData.status,
     };
 
@@ -134,6 +140,7 @@ export default function AddBannerPage() {
       });
 
       setSubmitting(false);
+      router.push('/dashboard/banners');
     } catch (error) {
       setSubmitting(false);
       console.log('Banner create error:', error);
@@ -144,9 +151,7 @@ export default function AddBannerPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-4xl font-black text-[#16013d]">
-          Add Banner
-        </h1>
+        <h1 className="text-4xl font-black text-[#16013d]">Add Banner</h1>
         <p className="mt-2 text-gray-500">
           Create homepage hero slider banner.
         </p>
@@ -169,6 +174,10 @@ export default function AddBannerPage() {
               className="w-full rounded-xl border border-purple-100 px-4 py-3"
             />
 
+            <p className="mt-2 text-xs text-gray-500">
+              Image optional. PNG, JPG, WEBP supported. Max 900 KB.
+            </p>
+
             {uploading && (
               <p className="mt-2 text-sm font-bold text-purple-600">
                 Uploading...
@@ -176,19 +185,26 @@ export default function AddBannerPage() {
             )}
 
             {formData.image && (
-              <img
-                src={formData.image}
-                alt="Preview"
-                className="mt-4 h-64 w-full rounded-2xl border object-cover"
-              />
+              <div className="mt-4">
+                <img
+                  src={formData.image}
+                  alt="Preview"
+                  className="h-64 w-full rounded-2xl border object-cover"
+                />
+
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="mt-3 rounded-xl bg-red-50 px-4 py-2 text-sm font-bold text-red-600"
+                >
+                  Remove Image
+                </button>
+              </div>
             )}
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-bold">
-              Title
-            </label>
-
+            <label className="mb-2 block text-sm font-bold">Title</label>
             <input
               name="title"
               value={formData.title}
@@ -202,7 +218,6 @@ export default function AddBannerPage() {
             <label className="mb-2 block text-sm font-bold">
               Discount Text
             </label>
-
             <input
               name="discount"
               value={formData.discount}
@@ -212,11 +227,32 @@ export default function AddBannerPage() {
             />
           </div>
 
-          <div className="md:col-span-2">
-            <label className="mb-2 block text-sm font-bold">
-              Subtitle
-            </label>
+          <div>
+            <label className="mb-2 block text-sm font-bold">Position</label>
+            <input
+              type="number"
+              name="position"
+              value={formData.position}
+              onChange={handleChange}
+              placeholder="1"
+              className="w-full rounded-xl border border-purple-100 px-4 py-3"
+            />
+          </div>
 
+          <div>
+            <label className="mb-2 block text-sm font-bold">Offer URL</label>
+            <input
+              type="text"
+              name="offerUrl"
+              value={formData.offerUrl}
+              onChange={handleChange}
+              placeholder="/offers"
+              className="w-full rounded-xl border border-purple-100 px-4 py-3"
+            />
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="mb-2 block text-sm font-bold">Subtitle</label>
             <textarea
               name="subtitle"
               rows="4"
@@ -228,10 +264,7 @@ export default function AddBannerPage() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-bold">
-              Status
-            </label>
-
+            <label className="mb-2 block text-sm font-bold">Status</label>
             <select
               name="status"
               value={formData.status}
@@ -255,7 +288,7 @@ export default function AddBannerPage() {
 
           <button
             type="button"
-            onClick={() => router.push('/dashboard/banners')}
+            onClick={() => router.push('/dashboard/banner')}
             className="rounded-xl border border-purple-200 px-8 py-3 font-bold text-purple-700"
           >
             Cancel
