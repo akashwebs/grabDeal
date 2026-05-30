@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { uploadToCloudinary } from "../../../lib/uploadToCloudinary";
+
 import Swal from 'sweetalert2';
 
 export default function OffersPage() {
@@ -117,68 +119,36 @@ export default function OffersPage() {
   try {
     setUploading(true);
 
-    const imageData = new FormData();
+    const result = await uploadToCloudinary(file);
+      
+      console.log("image",result)
 
-    imageData.append("image", file);
-
-    const res = await fetch(
-      "http://localhost:5000/api/v1/upload",
-      {
-        method: "POST",
-        body: imageData,
+      if (!result.success) {
+        setUploading(false);
+        Swal.fire('Upload Failed', data?.message || 'Something went wrong', 'error');
+        return;
       }
-    );
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      Swal.fire({
-        icon: "error",
-        title: "Upload Failed",
-        text:
-          data.message ||
-          "Something went wrong",
-        confirmButtonColor: "#7b00ff",
+      setFormData({
+        ...formData,
+        image: result?.url,
       });
 
       setUploading(false);
-      return;
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Uploaded',
+        text: 'Image uploaded successfully',
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      setUploading(false);
+      console.log(error);
+      Swal.fire('Upload Error', 'Server upload failed', 'error');
     }
-
-    setFormData({
-      ...formData,
-      image:
-        data?.url ||
-        data?.secure_url ||
-        "",
-    });
-
-    Swal.fire({
-      icon: "success",
-      title: "Uploaded",
-      text: "Image uploaded successfully",
-      timer: 1500,
-      showConfirmButton: false,
-      confirmButtonColor: "#7b00ff",
-    });
-
-    setUploading(false);
-
-  } catch (error) {
-
-    setUploading(false);
-
-    Swal.fire({
-      icon: "error",
-      title: "Upload Error",
-      text:
-        "Server upload failed",
-      confirmButtonColor: "#7b00ff",
-    });
-
-    console.log(error);
-  }
-};
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
+import { uploadToCloudinary } from '../../../../../lib/uploadToCloudinary';
 
 export default function EditBrandPage() {
   const { id } = useParams();
@@ -110,54 +111,34 @@ export default function EditBrandPage() {
     try {
       setUploading(true);
 
-      const imageData = new FormData();
-      imageData.append('image', file);
+      const result = await uploadToCloudinary(file);
+      
+      
 
-      const res = await fetch('http://localhost:5000/api/v1/upload', {
-        method: 'POST',
-        body: imageData,
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Upload Failed',
-          text: data?.message || 'Image upload failed.',
-          confirmButtonColor: '#7b00ff',
-        });
-
+      if (!result.success) {
         setUploading(false);
+        Swal.fire('Upload Failed', data?.message || 'Something went wrong', 'error');
         return;
       }
 
       setFormData({
         ...formData,
-        image: data?.url || data?.secure_url || data?.image || '',
+        image: result?.url,
       });
+
+      setUploading(false);
 
       Swal.fire({
         icon: 'success',
         title: 'Uploaded',
-        text: 'Brand image uploaded successfully.',
-        timer: 1400,
+        text: 'Image uploaded successfully',
+        timer: 1500,
         showConfirmButton: false,
       });
-
-      setUploading(false);
-      e.target.value = '';
     } catch (error) {
       setUploading(false);
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Upload Error',
-        text: 'Server upload failed.',
-        confirmButtonColor: '#7b00ff',
-      });
-
       console.log(error);
+      Swal.fire('Upload Error', 'Server upload failed', 'error');
     }
   };
 

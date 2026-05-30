@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import { uploadToCloudinary } from '../../../lib/uploadToCloudinary';
 
 export default function BrandsPage() {
   const [uploading, setUploading] = useState(false);
@@ -61,54 +62,34 @@ export default function BrandsPage() {
     try {
       setUploading(true);
 
-      const imageData = new FormData();
-      imageData.append('image', file);
+      const result = await uploadToCloudinary(file);
+      
+      
 
-      const res = await fetch('http://localhost:5000/api/v1/upload', {
-        method: 'POST',
-        body: imageData,
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Upload Failed',
-          text: data?.message || 'Image upload failed.',
-          confirmButtonColor: '#7b00ff',
-        });
-
+      if (!result.success) {
         setUploading(false);
+        Swal.fire('Upload Failed', data?.message || 'Something went wrong', 'error');
         return;
       }
 
       setFormData({
         ...formData,
-        image: data?.url || data?.secure_url || data?.image || '',
+        image: result?.url,
       });
+
+      setUploading(false);
 
       Swal.fire({
         icon: 'success',
         title: 'Uploaded',
-        text: 'Brand image uploaded successfully.',
-        timer: 1400,
+        text: 'Image uploaded successfully',
+        timer: 1500,
         showConfirmButton: false,
       });
-
-      setUploading(false);
-      e.target.value = '';
     } catch (error) {
       setUploading(false);
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Upload Error',
-        text: 'Server upload failed.',
-        confirmButtonColor: '#7b00ff',
-      });
-
       console.log(error);
+      Swal.fire('Upload Error', 'Server upload failed', 'error');
     }
   };
 
@@ -313,12 +294,12 @@ export default function BrandsPage() {
             </span>
           </div>
 
-          <div className="mt-6 rounded-2xl bg-purple-50 p-5">
+         {/*  <div className="mt-6 rounded-2xl bg-purple-50 p-5">
             <h3 className="font-black text-purple-700">API Endpoint</h3>
             <p className="mt-2 text-sm text-gray-600">
               POST: http://localhost:5000/api/v1/brands
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
