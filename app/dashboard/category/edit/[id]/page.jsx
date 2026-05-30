@@ -69,7 +69,7 @@ export default function EditCategoryPage() {
     const imageURLs = formData.imageURLs
       .split('\n')
       .map((url) => url.trim())
-      .filter(Boolean);
+      .filter(Boolean) || " ";
 
     const payload = {
       title: formData.title,

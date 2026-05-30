@@ -18,7 +18,7 @@ export default function AllBrandsPage() {
 
       const data = await res.json();
 
-      setBrands(data?.data || data || []);
+      setBrands(data?.data.result || data || []);
       setLoading(false);
     } catch (error) {
       setLoading(false);
