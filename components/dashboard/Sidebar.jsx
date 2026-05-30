@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import LogoutButton from "../LogoutButton";
 
 export default function Sidebar() {
 
@@ -109,7 +110,7 @@ pathname===menu.link
 </Link>
 
 ))}
-
+<LogoutButton/>
 </div>
 
 </div>
