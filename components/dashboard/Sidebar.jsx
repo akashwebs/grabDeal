@@ -15,13 +15,18 @@ const menus=[
 link:"/dashboard"
 },
 {
+name:"Add Banner",
+link:"/dashboard/banner/add",
+icon:"🖼"
+},
+{
 name:"Banner",
 link:"/dashboard/banner",
 icon:"🖼"
 },
 
 {
-name:"Category",
+name:"Add Category",
 link:"/dashboard/category",
 icon:"📁"
 },
@@ -32,7 +37,7 @@ icon:"📁"
 },
 
 {
-name:"Offers",
+name:"Add Offers",
 link:"/dashboard/offers",
 icon:"🔥"
 },
@@ -42,7 +47,7 @@ icon:"🔥"
   icon: "📋",
 },
 {
-name:"Brands",
+name:"Add Brands",
 link:"/dashboard/brands",
 icon:"🏷"
 },
