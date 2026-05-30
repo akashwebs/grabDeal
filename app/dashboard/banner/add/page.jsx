@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { uploadToCloudinary } from "../../../../lib/uploadToCloudinary";
 import Swal from 'sweetalert2';
 
 const API_URL =
@@ -55,17 +56,11 @@ export default function AddBannerPage() {
     try {
       setUploading(true);
 
-      const imageData = new FormData();
-      imageData.append('image', file);
+  const result = await uploadToCloudinary(file);
+      
+      
 
-      const res = await fetch(`${API_URL}/upload`, {
-        method: 'POST',
-        body: imageData,
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
+      if (!result.success) {
         setUploading(false);
         Swal.fire('Upload Failed', data?.message || 'Something went wrong', 'error');
         return;
@@ -73,7 +68,7 @@ export default function AddBannerPage() {
 
       setFormData({
         ...formData,
-        image: data?.url || data?.secure_url || '',
+        image: result?.url,
       });
 
       setUploading(false);
@@ -140,7 +135,7 @@ export default function AddBannerPage() {
       });
 
       setSubmitting(false);
-      router.push('/dashboard/banners');
+      router.push('/dashboard/banner');
     } catch (error) {
       setSubmitting(false);
       console.log('Banner create error:', error);

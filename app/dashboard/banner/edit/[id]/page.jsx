@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
+import { uploadToCloudinary } from '../../../../../lib/uploadToCloudinary';
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
@@ -94,42 +95,36 @@ export default function EditBannerPage() {
     try {
       setUploading(true);
 
-      const imageData = new FormData();
-      imageData.append('image', file);
-
-      const res = await fetch(`${API_URL}/upload`, {
-        method: 'POST',
-        body: imageData,
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setUploading(false);
-        Swal.fire('Upload Failed', data?.message || 'Something went wrong', 'error');
-        return;
-      }
-
-      setFormData({
-        ...formData,
-        image: data?.url || data?.secure_url || '',
-      });
-
-      setUploading(false);
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Uploaded',
-        text: 'Image uploaded successfully',
-        timer: 1500,
-        showConfirmButton: false,
-      });
-    } catch (error) {
-      setUploading(false);
-      console.log(error);
-      Swal.fire('Upload Error', 'Server upload failed', 'error');
-    }
-  };
+      const result = await uploadToCloudinary(file);
+            
+            
+      
+            if (!result.success) {
+              setUploading(false);
+              Swal.fire('Upload Failed', data?.message || 'Something went wrong', 'error');
+              return;
+            }
+      
+            setFormData({
+              ...formData,
+              image: result?.url,
+            });
+      
+            setUploading(false);
+      
+            Swal.fire({
+              icon: 'success',
+              title: 'Uploaded',
+              text: 'Image uploaded successfully',
+              timer: 1500,
+              showConfirmButton: false,
+            });
+          } catch (error) {
+            setUploading(false);
+            console.log(error);
+            Swal.fire('Upload Error', 'Server upload failed', 'error');
+          }
+        };
 
   const removeImage = () => {
     setFormData({
