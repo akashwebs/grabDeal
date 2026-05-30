@@ -50,7 +50,7 @@ export default function Header() {
                 {navItems.map((item) => (
                   <a
                     key={item}
-                    href="#"
+                    href={item === "All" ? "/offer" : `/offer?category=${item}`}
                     className="block rounded-xl px-4 py-3 hover:bg-purple-50"
                   >
                     {item}

@@ -57,7 +57,7 @@ export default async function TodaysOffer() {
           </h2>
         </div>
 
-        <a href="#" className="text-sm font-bold text-purple-700">
+        <a href="/offer" className="text-sm font-bold text-purple-700">
           View All →
         </a>
       </div>

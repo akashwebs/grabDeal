@@ -18,7 +18,7 @@ export default function AllCategoryPage() {
 
       const data = await res.json();
 
-      setCategories(data?.data || data || []);
+      setCategories(data?.data.result || data || []);
       setLoading(false);
     } catch (error) {
       setLoading(false);
