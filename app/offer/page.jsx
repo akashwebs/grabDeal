@@ -2,7 +2,7 @@ import OfferCard from "@/components/cards/OfferCard";
 import Header from "@/components/layout/Header";
 
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+  process.env.NEXT_PUBLIC_API_URL || "https://grabdeal-server.vercel.app/api/v1";
 
 async function getOffers({ category, brand }) {
   const res = await fetch(`${API_URL}/offers`, {

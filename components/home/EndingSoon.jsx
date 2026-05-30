@@ -1,6 +1,6 @@
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL ||
-  "http://localhost:5000/api/v1";
+  "https://grabdeal-server.vercel.app/api/v1";
 
 async function getEndingSoonOffers() {
   const res = await fetch(`${API_URL}/offers`, {

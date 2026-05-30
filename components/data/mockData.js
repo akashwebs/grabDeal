@@ -1,5 +1,5 @@
 export async function newToday() {
-  const res = await fetch("http://localhost:5000/api/v1/offers", {
+  const res = await fetch("https://grabdeal-server.vercel.app/api/v1/offers", {
     next: { revalidate: 60 }, // 60 sec cache
   });
 

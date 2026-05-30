@@ -6,7 +6,7 @@ import { uploadToCloudinary } from "../../../../lib/uploadToCloudinary";
 import Swal from 'sweetalert2';
 
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+  process.env.NEXT_PUBLIC_API_URL || 'https://grabdeal-server.vercel.app/api/v1';
 
 export default function AddBannerPage() {
   const router = useRouter();

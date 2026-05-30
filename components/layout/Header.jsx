@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL ||
-  'http://localhost:5000/api/v1';
+  'https://grabdeal-server.vercel.app/api/v1';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);

@@ -22,7 +22,7 @@ export default function EditBrandPage() {
   useEffect(() => {
     const fetchBrand = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/v1/brands/${id}`, {
+        const res = await fetch(`https://grabdeal-server.vercel.app/api/v1/brands/${id}`, {
           cache: 'no-store',
         });
 
@@ -168,7 +168,7 @@ export default function EditBrandPage() {
     try {
       setSubmitting(true);
 
-      const res = await fetch(`http://localhost:5000/api/v1/brands/${id}`, {
+      const res = await fetch(`https://grabdeal-server.vercel.app/api/v1/brands/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

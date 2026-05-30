@@ -3,7 +3,7 @@ import Header from "../../../components/layout/Header";
 import Link from "next/link";
 import OfferActions from "../../../components/offer/OfferActions";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://grabdeal-server.vercel.app/api/v1";
 
 async function getOfferById(id) {
   const res = await fetch(`${API_URL}/offers/${id}`, {
