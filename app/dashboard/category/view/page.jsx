@@ -12,7 +12,7 @@ export default function AllCategoryPage() {
     try {
       setLoading(true);
 
-      const res = await fetch('https://grabdeal-server.vercel.app/api/v1/categories', {
+      const res = await fetch('http://localhost:5000/api/v1/categories', {
         cache: 'no-store',
       });
 
@@ -53,7 +53,7 @@ export default function AllCategoryPage() {
     if (!confirm.isConfirmed) return;
 
     try {
-      const res = await fetch(`https://grabdeal-server.vercel.app/api/v1/categories/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/v1/categories/${id}`, {
         method: 'DELETE',
       });
 

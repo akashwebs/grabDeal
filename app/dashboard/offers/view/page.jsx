@@ -15,7 +15,7 @@ export default function ViewOffersPage() {
     try {
       setLoading(true);
 
-      const res = await fetch('https://grabdeal-server.vercel.app/api/v1/offers', {
+      const res = await fetch('http://localhost:5000/api/v1/offers', {
         cache: 'no-store',
       });
 
@@ -56,7 +56,7 @@ export default function ViewOffersPage() {
     if (!confirm.isConfirmed) return;
 
     try {
-      const res = await fetch(`https://grabdeal-server.vercel.app/api/v1/offers/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/v1/offers/${id}`, {
         method: 'DELETE',
       });
 

@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'https://grabdeal-server.vercel.app/api/v1';
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+
+const CACHE_KEY = 'grabdeal_banners_cache';
 
 export default function HeroSlider() {
   const [sliders, setSliders] = useState([]);
@@ -26,11 +28,24 @@ export default function HeroSlider() {
 
   const fetchSliders = async () => {
     try {
+      const cached = sessionStorage.getItem(CACHE_KEY);
+
+      if (cached) {
+        setSliders(JSON.parse(cached));
+        return;
+      }
+
       const res = await fetch(`${API_URL}/banner`);
       const data = await res.json();
 
       const result = data?.data?.result || data?.data || data || [];
-      setSliders(result.filter((item) => item.status === 'active'));
+
+      const activeBanners = result
+        .filter((item) => item.status === 'active')
+        .sort((a, b) => Number(a.position || 0) - Number(b.position || 0));
+
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(activeBanners));
+      setSliders(activeBanners);
     } catch (error) {
       console.log('Slider fetch error:', error);
     }
@@ -45,20 +60,28 @@ export default function HeroSlider() {
     }, 250);
   };
 
-  if (!sliders.length) return null;
+ if (!sliders.length) {
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-4 sm:py-6 lg:px-8">
+      <div className="h-[260px] animate-pulse rounded-[24px] bg-purple-100 shadow-2xl sm:h-[340px] md:h-[430px] lg:h-[500px]" />
+    </section>
+  );
+}
 
   const currentSlide = sliders[activeSlide];
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-4 sm:py-6 lg:px-8">
-      <div className="relative h-[260px] overflow-hidden rounded-[24px] shadow-2xl sm:h-[340px] md:h-[430px] lg:h-[500px] lg:rounded-[32px]">
-       {currentSlide.image &&  <img
-          src={currentSlide.image}
-          alt={currentSlide.title || 'Slider image'}
-          className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-in-out ${
-            fade ? 'scale-100 opacity-100' : 'scale-105 opacity-0'
-          }`}
-        />}
+      <div className="relative h-[260px] overflow-hidden rounded-[24px] bg-purple-900 shadow-2xl sm:h-[340px] md:h-[430px] lg:h-[500px] lg:rounded-[32px]">
+        {currentSlide.image && (
+          <img
+            src={currentSlide.image}
+            alt={currentSlide.title || 'Slider image'}
+            className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-in-out ${
+              fade ? 'scale-100 opacity-100' : 'scale-105 opacity-0'
+            }`}
+          />
+        )}
 
         <div className="absolute inset-0 bg-gradient-to-r from-[#12002f]/90 via-[#7b00ff]/55 to-transparent" />
 
@@ -86,7 +109,7 @@ export default function HeroSlider() {
           )}
 
           <a
-            href={currentSlide.offerUrl || "#"}
+            href={currentSlide.offerUrl || '#'}
             className="mt-5 w-fit rounded-2xl bg-white px-5 py-3 text-sm font-bold text-purple-700 shadow-xl transition hover:scale-105 sm:mt-8 sm:px-7 sm:py-4 sm:text-base"
           >
             Explore Offers →

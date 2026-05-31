@@ -119,7 +119,7 @@ export default function BrandsPage() {
     try {
       setSubmitting(true);
 
-      const res = await fetch('https://grabdeal-server.vercel.app/api/v1/brands', {
+      const res = await fetch('http://localhost:5000/api/v1/brands', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -297,7 +297,7 @@ export default function BrandsPage() {
          {/*  <div className="mt-6 rounded-2xl bg-purple-50 p-5">
             <h3 className="font-black text-purple-700">API Endpoint</h3>
             <p className="mt-2 text-sm text-gray-600">
-              POST: https://grabdeal-server.vercel.app/api/v1/brands
+              POST: http://localhost:5000/api/v1/brands
             </p>
           </div> */}
         </div>

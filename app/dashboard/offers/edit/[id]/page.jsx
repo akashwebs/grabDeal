@@ -51,7 +51,7 @@ export default function EditOfferPage() {
     try {
       setLoading(true);
 
-      const res = await fetch(`https://grabdeal-server.vercel.app/api/v1/offers/${id}`);
+      const res = await fetch(`http://localhost:5000/api/v1/offers/${id}`);
       const data = await res.json();
 
       const offer = data?.data || data?.data?.result || data;
@@ -82,7 +82,7 @@ export default function EditOfferPage() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch('https://grabdeal-server.vercel.app/api/v1/categories');
+      const res = await fetch('http://localhost:5000/api/v1/categories');
       const data = await res.json();
       setCategories(data?.data?.result || data || []);
     } catch (error) {
@@ -92,7 +92,7 @@ export default function EditOfferPage() {
 
   const fetchBrands = async () => {
     try {
-      const res = await fetch('https://grabdeal-server.vercel.app/api/v1/brands');
+      const res = await fetch('http://localhost:5000/api/v1/brands');
       const data = await res.json();
       setBrands(data?.data?.result || data || []);
     } catch (error) {
@@ -186,7 +186,7 @@ export default function EditOfferPage() {
     try {
       setSubmitting(true);
 
-      const res = await fetch(`https://grabdeal-server.vercel.app/api/v1/offers/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/v1/offers/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

@@ -40,7 +40,7 @@ pnpm dev:server
 ```
 
 This will:
-- Start Express server on `https://grabdeal-server.vercel.app`
+- Start Express server on `http://localhost:5000`
 - Connect to MongoDB
 - Output: "Server is running on port 5000"
 
@@ -72,7 +72,7 @@ http://localhost:3000
 
 ## API Endpoints
 
-All API endpoints are available at `https://grabdeal-server.vercel.app/api`
+All API endpoints are available at `http://localhost:5000/api`
 
 ### Offers
 - `GET /api/offers` - Get all offers with optional filters
@@ -165,7 +165,7 @@ All API endpoints are available at `https://grabdeal-server.vercel.app/api`
 
 ### Frontend (.env.local)
 ```
-NEXT_PUBLIC_API_URL=https://grabdeal-server.vercel.app/api
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
 ```
 
 ### Backend (server/.env)
@@ -217,7 +217,7 @@ Components are in `/components` and use:
 Use the API endpoints to create new offers:
 
 ```bash
-curl -X POST https://grabdeal-server.vercel.app/api/offers \
+curl -X POST http://localhost:5000/api/offers \
   -H "Content-Type: application/json" \
   -d '{
     "brand_id": "BRAND_ID",
