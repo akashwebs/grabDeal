@@ -102,7 +102,11 @@ export default function Header() {
               {navItems.map((item) => (
                 <a
                   key={item}
-                  href="#"
+                  href={
+            item === "All"
+              ? "/offer"
+              : `/offer?category=${encodeURIComponent(item)}`
+          }
                   className="rounded-xl px-4 py-3 text-sm font-bold hover:bg-purple-50"
                   onClick={() => setMenuOpen(false)}
                 >
