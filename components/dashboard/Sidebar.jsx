@@ -1,120 +1,150 @@
-'use client'
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import LogoutButton from "../LogoutButton";
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import LogoutButton from '../LogoutButton';
 
 export default function Sidebar() {
+  const pathname = usePathname();
+  const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-const pathname=usePathname()
+  const menus = [
+    {
+      group: 'Overview',
+      items: [{ icon: '🏠', name: 'Dashboard', link: '/dashboard' }],
+    },
+    {
+      group: 'Banner',
+      items: [
+        { name: 'All Banners', link: '/dashboard/banner', icon: '🖼' },
+        { name: 'Add Banner', link: '/dashboard/banner/add', icon: '➕' },
+      ],
+    },
+    {
+      group: 'Offers',
+      items: [
+        { name: 'All Offers', link: '/dashboard/offers/view', icon: '🔥' },
+        { name: 'Add Offer', link: '/dashboard/offers', icon: '➕' },
+      ],
+    },
+    {
+      group: 'Categories',
+      items: [
+        { name: 'All Categories', link: '/dashboard/category/view', icon: '📋' },
+        { name: 'Add Category', link: '/dashboard/category', icon: '➕' },
+      ],
+    },
+    {
+      group: 'Brands',
+      items: [
+        { name: 'All Brands', link: '/dashboard/brands/view', icon: '🏷️' },
+        { name: 'Add Brand', link: '/dashboard/brands', icon: '➕' },
+      ],
+    },
+    {
+      group: 'Customers',
+      items: [{ name: 'Reviews', link: '/dashboard/reviews', icon: '⭐' }],
+    },
+  ];
 
-const menus=[
-{
-    icon:"0",
-    name:"Dashboard",
-link:"/dashboard"
-},
-{
-name:"Add Banner",
-link:"/dashboard/banner/add",
-icon:"🖼"
-},
-{
-name:"Banner",
-link:"/dashboard/banner",
-icon:"🖼"
-},
+  const SidebarContent = () => (
+    <div
+      className={`min-h-screen bg-[#16013d] text-white transition-all duration-300 ${
+        collapsed ? 'w-20 p-4' : 'w-64 p-6'
+      }`}
+    >
+      <div className="mb-6 flex items-center justify-between">
+        <Link href="/" target="_blank">
+          {!collapsed ? (
+            <Image alt="Logo" width={160} height={80} src="/footer.png" />
+          ) : (
+            <div className="text-2xl font-black">G</div>
+          )}
+        </Link>
 
-{
-name:"Add Category",
-link:"/dashboard/category",
-icon:"📁"
-},
-{
-  name: "All Categories",
-  link: "/dashboard/category/view",
-  icon: "📋",
-},
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="hidden rounded-lg bg-purple-800 px-2 py-1 text-sm lg:block"
+        >
+          {collapsed ? '→' : '←'}
+        </button>
+      </div>
 
-{
-name:"Add Offers",
-link:"/dashboard/offers",
-icon:"🔥"
-},
-{
-  name: "All Offers",
-  link: "/dashboard/offers/view",
-  icon: "📋",
-},
-{
-name:"Add Brands",
-link:"/dashboard/brands",
-icon:"🏷"
-},
-{
-  name: "All Brands",
-  link: "/dashboard/brands/view",
-  icon: "🏷️",
-},
-{
-name:"Customers Review",
-link:"/dashboard/reviews",
-icon:"⭐"
-}
+      <div className="space-y-6">
+        {menus.map((section) => (
+          <div key={section.group}>
+            {!collapsed && (
+              <p className="mb-2 px-3 text-xs font-bold uppercase tracking-wider text-purple-300">
+                {section.group}
+              </p>
+            )}
 
-]
+            <div className="space-y-1">
+              {section.items.map((menu) => {
+                const active =
+                  pathname === menu.link || pathname.startsWith(menu.link + '/');
 
-return(
+                return (
+                  <Link
+                    key={menu.link}
+                    href={menu.link}
+                    onClick={() => setMobileOpen(false)}
+                    title={menu.name}
+                    className={`flex items-center gap-3 rounded-xl px-4 py-3 transition ${
+                      active ? 'bg-purple-600' : 'hover:bg-purple-800'
+                    } ${collapsed ? 'justify-center px-2' : ''}`}
+                  >
+                    <span className="text-xl">{menu.icon}</span>
+                    {!collapsed && <span>{menu.name}</span>}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
 
-<div className="w-64 min-h-screen bg-[#16013d] text-white p-6">
+        <div className={collapsed ? 'flex justify-center' : ''}>
+          <LogoutButton />
+        </div>
+      </div>
+    </div>
+  );
 
-<Link href={"/"} target="/_blank">
-<Image alt="" width={160} height={80} src={"/footer.png"} className="mb-5"/>
-</Link>
+  return (
+    <>
+      <button
+        onClick={() => setMobileOpen(true)}
+        className="fixed left-4 top-4 z-[60] rounded-xl bg-[#16013d] px-4 py-3 text-white shadow-xl lg:hidden"
+      >
+        ☰
+      </button>
 
-<div className="space-y-2">
+      <aside className="hidden lg:block">
+        <SidebarContent />
+      </aside>
 
-{menus.map((menu)=>(
+      {mobileOpen && (
+        <div className="fixed inset-0 z-[70] lg:hidden">
+          <div
+            onClick={() => setMobileOpen(false)}
+            className="absolute inset-0 bg-black/50"
+          />
 
-<Link
-key={menu.link}
-href={menu.link}
+          <div className="relative z-10">
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="absolute left-64 top-4 rounded-full bg-white px-3 py-1 font-bold text-[#16013d]"
+            >
+              ✕
+            </button>
 
-className={`flex items-center gap-3 rounded-xl px-4 py-3 transition
-
-${
-pathname===menu.link
-?
-"bg-purple-600"
-:
-"hover:bg-purple-800"
-}
-
-`}
-
->
-
-<span className="text-xl">
-
-{menu.icon}
-
-</span>
-
-<span>
-
-{menu.name}
-
-</span>
-
-</Link>
-
-))}
-<LogoutButton/>
-</div>
-
-</div>
-
-)
-
+            <SidebarContent />
+          </div>
+        </div>
+      )}
+    </>
+  );
 }
