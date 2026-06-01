@@ -12,7 +12,11 @@ export default function OfferCard({ offer }) {
       <div className="p-5">
         <h3 className="text-xl font-black">{offer.brand}</h3>
         <p className="mt-2 font-medium text-gray-600">{offer.title}</p>
+        <div className="grid md:grid-cols-2">
+
         <p className="mt-4 text-xs font-bold text-red-500">⏱ {offer.ends}</p>
+        {/* <p className="mt-4 text-xs font-bold text-red-500"> ekhane update koro ekhane coutdown hobe</p> */}
+        </div>
         <div className="mt-4 flex flex-wrap gap-3 text-xs font-bold">
           <span className="text-green-600">✓ Verified</span>
           <span className={offer.online ? 'text-green-600' : 'text-orange-500'}>● {offer.online ? 'Online' : 'Offline'}</span>

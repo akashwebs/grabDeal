@@ -3,7 +3,7 @@ import Header from "../../../components/layout/Header";
 import Link from "next/link";
 import OfferActions from "../../../components/offer/OfferActions";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "ttps://grabdeal-server.vercel.app/api/v1";
 
 async function getOfferById(id) {
   const res = await fetch(`${API_URL}/offers/${id}`, {
@@ -66,6 +66,7 @@ async function getRelatedOffers(currentId) {
         : "N/A",
       online: item.offerType === "online",
       verified: item.verified,
+      expiryDate: item.expiryDate,
       category: item.category,
       merchant: item.merchantName,
       applicableOn: item.offerType === "online" ? "Website & App" : "Store",
