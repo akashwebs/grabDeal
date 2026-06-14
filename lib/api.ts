@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'ttps://grabdeal-server.vercel.app/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://grabdeal-server.vercel.app/api';
 
 interface FetchOptions extends RequestInit {
   timeout?: number;

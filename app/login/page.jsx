@@ -23,7 +23,7 @@ export default function LoginPage() {
     try {
       setLoading(true);
 
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch('https://grabdeal-server.vercel.app/api/v1/user/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -46,7 +46,7 @@ export default function LoginPage() {
         timer: 1200,
         showConfirmButton: false,
       });
-
+      document.cookie = `grabdeal_token=${data.token}; path=/; max-age=86400`;
       setLoading(false);
       router.push('/dashboard');
     } catch (error) {

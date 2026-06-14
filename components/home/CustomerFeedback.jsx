@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'ttps://grabdeal-server.vercel.app/api/v1';
+  process.env.NEXT_PUBLIC_API_URL || 'https://grabdeal-server.vercel.app/api/v1';
 
 export default function CustomerFeedback() {
   const [reviews, setReviews] = useState([]);

@@ -69,7 +69,7 @@ export default function CategoryPage() {
         const imageData = new FormData();
         imageData.append('image', file);
 
-        const res = await fetch('ttps://grabdeal-server.vercel.app/api/v1/upload', {
+        const res = await fetch('https://grabdeal-server.vercel.app/api/v1/upload', {
           method: 'POST',
           body: imageData,
         });
@@ -149,7 +149,7 @@ export default function CategoryPage() {
     try {
       setSubmitting(true);
 
-      const res = await fetch('ttps://grabdeal-server.vercel.app/api/v1/categories', {
+      const res = await fetch('https://grabdeal-server.vercel.app/api/v1/categories', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

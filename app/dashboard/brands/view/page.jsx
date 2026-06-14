@@ -12,7 +12,7 @@ export default function AllBrandsPage() {
     try {
       setLoading(true);
 
-      const res = await fetch('ttps://grabdeal-server.vercel.app/api/v1/brands', {
+      const res = await fetch('https://grabdeal-server.vercel.app/api/v1/brands', {
         cache: 'no-store',
       });
 

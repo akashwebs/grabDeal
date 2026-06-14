@@ -119,7 +119,7 @@ export default function BrandsPage() {
     try {
       setSubmitting(true);
 
-      const res = await fetch('ttps://grabdeal-server.vercel.app/api/v1/brands', {
+      const res = await fetch('https://grabdeal-server.vercel.app/api/v1/brands', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

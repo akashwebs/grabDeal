@@ -82,7 +82,7 @@ export default function EditOfferPage() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch('ttps://grabdeal-server.vercel.app/api/v1/categories');
+      const res = await fetch('https://grabdeal-server.vercel.app/api/v1/categories');
       const data = await res.json();
       setCategories(data?.data?.result || data || []);
     } catch (error) {
@@ -92,7 +92,7 @@ export default function EditOfferPage() {
 
   const fetchBrands = async () => {
     try {
-      const res = await fetch('ttps://grabdeal-server.vercel.app/api/v1/brands');
+      const res = await fetch('https://grabdeal-server.vercel.app/api/v1/brands');
       const data = await res.json();
       setBrands(data?.data?.result || data || []);
     } catch (error) {
