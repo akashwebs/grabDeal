@@ -53,7 +53,7 @@ export default function AllBrandsPage() {
     if (!confirm.isConfirmed) return;
 
     try {
-      const res = await fetch(`ttps://grabdeal-server.vercel.app/api/v1/brands/${id}`, {
+      const res = await fetch(`https://grabdeal-server.vercel.app/api/v1/brands/${id}`, {
         method: 'DELETE',
       });
 

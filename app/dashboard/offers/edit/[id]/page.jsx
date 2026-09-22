@@ -51,7 +51,7 @@ export default function EditOfferPage() {
     try {
       setLoading(true);
 
-      const res = await fetch(`ttps://grabdeal-server.vercel.app/api/v1/offers/${id}`);
+      const res = await fetch(`https://grabdeal-server.vercel.app/api/v1/offers/${id}`);
       const data = await res.json();
 
       const offer = data?.data || data?.data?.result || data;
@@ -186,7 +186,7 @@ export default function EditOfferPage() {
     try {
       setSubmitting(true);
 
-      const res = await fetch(`ttps://grabdeal-server.vercel.app/api/v1/offers/${id}`, {
+      const res = await fetch(`https://grabdeal-server.vercel.app/api/v1/offers/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

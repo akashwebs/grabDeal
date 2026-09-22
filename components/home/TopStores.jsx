@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "ttps://grabdeal-server.vercel.app/api/v1";
+  process.env.NEXT_PUBLIC_API_URL || "https://grabdeal-server.vercel.app/api/v1";
 
 async function getBrands() {
   const res = await fetch(`${API_URL}/brands`, {
